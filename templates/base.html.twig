@@ -11,6 +11,14 @@
                 <ul>
                     <li><a href="{{ path('list_user') }}">Liste des utilisateurs</a></li>
                     <li><a href="{{ path('list_product') }}">Liste des produits</a></li>
+                    {%if is_granted ('ROLE_USER')%} {#Verifie les permissions de l'utilisateur #}
+                    {%endif%}
+                    
+                    
+                    <li><a href="{{ path('my_products') }}">Mes Produits</a></li>
+                    <li><a href="{{ path('add_product') }}">Ajouter un produit</a></li>
+                    
+                    
                 </ul>
             </nav>
         </header>
