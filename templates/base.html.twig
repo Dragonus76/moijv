@@ -2,13 +2,18 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        
-        <title>MoiJv{% block title %}Dashboard{% endblock %}</title>
-        
+        <title>MoiJv - {% block title %}Dashboard{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
-        
     </head>
     <body>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="{{ path('list_user') }}">Liste des utilisateurs</a></li>
+                    <li><a href="{{ path('list_product') }}">Liste des produits</a></li>
+                </ul>
+            </nav>
+        </header>
         {% block body %}{% endblock %}
         
         {% block javascripts %}{% endblock %}

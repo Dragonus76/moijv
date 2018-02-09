@@ -6,11 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id
@@ -60,10 +61,62 @@ class User
      * @var Collection
      */
     private $products;
+    /**
+     *@ORM\Column(type="string")
+     * @var string
+     */
     
+    
+    private $roles;
+    public function setRoles( $roles) {
+        $this->roles = $roles;
+        return $this;
+    }
+
+        
     public function __construct() {
         $this->products = new ArrayCollection();
     }
+    
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+     public function getRoles()
+             //nos roles seront 
+             //"ROLE_USER|ROLE_ADMIN
+    {
+        return \explode('|', $this->roles);
+    }
+    
+     public function eraseCredentials()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+           
+        ) = unserialize($serialized);
+    }
+
     
     public function getProducts(): Collection {
         return $this->products;
